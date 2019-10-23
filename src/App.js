@@ -36,7 +36,7 @@ class App extends Component {
             onChange={this.handlerChange}>
           </input>
 
-          <button onClick={this.handlerSubmit}>Create task</button>
+          <button onClick={this.handleSubmit}>Create task</button>
         </form>
         <table>
           <thead>
@@ -44,14 +44,16 @@ class App extends Component {
               <th>Name</th>
               <th>Description</th>
               <th>State</th>
+              <th>CRUD</th>
             </tr>
           </thead>
           <tbody>
-            {this.state.tasks.map(e => (
+            {this.state.tasks.map((e, index) => (
               <tr>
                 <td>{e.name}</td>
                 <td>{e.description}</td>
                 <td>{e.check}</td>
+                <td><button onClick={() => this.deleteElement(index)}>Delete</button></td>
               </tr>
             )
             )}
@@ -61,7 +63,17 @@ class App extends Component {
     );
   }
 
-  handlerSubmit = (e) => {
+  deleteElement = (index) => {
+    // e.preventDefault();
+
+    const newList = this.state.tasks.filter((element, i) => index !== i);
+
+    this.setState({
+      tasks: newList
+    });
+  }
+
+  handleSubmit = (e) => {
     e.preventDefault();
 
     const newTask = {
@@ -71,7 +83,8 @@ class App extends Component {
     }
 
     this.setState({
-      tasks: this.state.tasks.concat(newTask)
+      // tasks: this.state.tasks.concat(newTask)
+      tasks: [...this.state.tasks, newTask]
     })
     console.log(this.state)
   }
